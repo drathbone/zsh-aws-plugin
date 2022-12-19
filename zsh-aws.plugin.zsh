@@ -105,12 +105,19 @@ function aws_auth_mfa() {
 
   # Get MFA Serial
   #
+  # 19/12/22 - DRathbone - Changed section to use gnu-sed (gsed) and lookup the defined mfa_serial variable from the .aws/config file
   # Assumes "iam list-mfa-devices" is permitted without MFA
-  local mfa_serial="$(aws iam list-mfa-devices --query 'MFADevices[*].SerialNumber' --output text)";
-  if ! [ "${?}" -eq 0 ]; then
-    echo "Failed to retrieve MFA serial number" >&2;
+  #local mfa_serial="$(aws iam list-mfa-devices --query 'MFADevices[*].SerialNumber' --output text)";
+  local mfa_serial=`gsed -nr "/^\[profile $AWS_PROFILE\]/ { :l /^mfa_serial[ ]*=/ { s/[^=]*=[ ]*//; p; q;}; n; b l;}" ~/.aws/config`
+  #if ! [ "${?}" -eq 0 ]; then
+  #  echo "Failed to retrieve MFA serial number" >&2;
+  #  return 1;
+  #fi;
+  if [ -z "$mfa_serial" ]; then
+    echo "Failed to define MFA serial number for AWS Profile: $AWS_PROFILE" >&2;
+    echo "Please check ~/.aws/config to ensure definition exists" >&2;
     return 1;
-  fi;
+  fi
 
   # Read the token from the console
   echo -n "MFA Token Code for [${AWS_PROFILE}]: ";
