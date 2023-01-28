@@ -2,13 +2,16 @@
 
 Forked from dvsa/zsh-aws-plugin to fix an OSX compatability issue.
 
+Requirements:
+Need to install coreutils (for gdate) and gsed
+
 The function to handle the prompt notication of MFA expiry fails on some newer OSX versions due to 
 changes in the <i>date</i> command's supported flags, specifically the ability to interpret the UTC
 extension on the end of the $AWS_MFA_EXPIRY variable.
 
-The solution is to install gnu-utils:
+The solution is to install coreutils:
 	
-	brew install gnu-utils
+	brew install coreutils
 
 ...and then to replace the initial date used on line 250:
 
