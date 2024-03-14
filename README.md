@@ -35,3 +35,33 @@ local mfa_serial="$(aws iam list-mfa-devices --query 'MFADevices[*].SerialNumber
 
 New code: 
 local mfa_serial=`gsed -nr "/^\[profile $AWS_PROFILE\]/ { :l /^mfa_serial[ ]*=/ { s/[^=]*=[ ]*//; p; q;}; n; b l;}" ~/.aws/config`
+
+
+
+Installation:
+
+1. Clone the repository into your oh_my_zsh custom plugins directory:
+
+git clone git@github.com:drathbone/zsh-aws-plugin.git ~/.oh-my-zsh/custom/plugins/zsh-aws
+
+2. Add the plugin to your .zshrc plugins config:
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-aws)
+
+3. (Optional/example) Add to Powerlevel10k right prompt
+
+Find section: typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+Add entry: aws_prompt_info
+
+4. (Optional/example) Make Powerlevel10k prompt show all the time (not just after a command runs)
+
+Comment out the following line: #typeset -g POWERLEVEL9K_AWS_SHOW_ON_COMMAND='aws|awless|cdk|terraform|pulumi|terragrunt'
+
+5. Restart shell
+
+Commands such as aws_set_env and aws_profiles should now work
