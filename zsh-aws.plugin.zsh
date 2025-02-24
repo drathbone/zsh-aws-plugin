@@ -26,6 +26,9 @@ function aws_unset_creds() {
   unset AWS_SESSION_EXPIRY;
   unset AWS_ROLE;
   unset AWS_PROFILE;
+  unset AWS_MFA_ACCESS_KEY_ID;
+  unset AWS_MFA_SECRET_ACCESS_KEY;
+  unset AWS_MFA_SESSION_TOKEN;
 }
 
 function aws_profiles() {
