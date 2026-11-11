@@ -65,3 +65,4 @@ Comment out the following line: #typeset -g POWERLEVEL9K_AWS_SHOW_ON_COMMAND='aw
 5. Restart shell
 
 Commands such as aws_set_env and aws_profiles should now work
+
